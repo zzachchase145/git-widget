@@ -25,7 +25,7 @@ struct Provider: TimelineProvider {
         let currentDate = Date()
         for hourOffset in 0 ..< 5 {
             let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "😀")
+            let entry = SimpleEntry(date: entryDate, emoji: "🌇")
             entries.append(entry)
         }
 
@@ -48,13 +48,10 @@ struct GitTrackerWidgetEntryView : View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text("Time:")
-                Text(entry.date, style: .time)
-            }
-
-            Text("Emoji:")
-            Text(entry.emoji)
+            Text("This Year's Contributions: 69")
+                .font(.headline)
+            
+            Spacer()
         }
     }
 }
