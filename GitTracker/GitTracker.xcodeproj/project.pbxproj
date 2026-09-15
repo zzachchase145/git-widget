@@ -6,14 +6,63 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		28F67B083059CC5E0041FBA1 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F67B073059CC5E0041FBA1 /* WidgetKit.framework */; };
+		28F67B0A3059CC5E0041FBA1 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28F67B093059CC5E0041FBA1 /* SwiftUI.framework */; };
+		28F67B153059CC600041FBA1 /* GitTrackerWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 28F67B053059CC5E0041FBA1 /* GitTrackerWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		28F67B133059CC600041FBA1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 28F67AEB3059C48D0041FBA1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 28F67B043059CC5E0041FBA1;
+			remoteInfo = GitTrackerWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		28F67B1A3059CC600041FBA1 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+				28F67B153059CC600041FBA1 /* GitTrackerWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		28F67AF33059C48D0041FBA1 /* GitTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GitTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28F67B053059CC5E0041FBA1 /* GitTrackerWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = GitTrackerWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		28F67B073059CC5E0041FBA1 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		28F67B093059CC5E0041FBA1 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		28F67B163059CC600041FBA1 /* Exceptions for "GitTrackerWidget" folder in "GitTrackerWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 28F67B043059CC5E0041FBA1 /* GitTrackerWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		28F67AF53059C48D0041FBA1 /* GitTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = GitTracker;
+			sourceTree = "<group>";
+		};
+		28F67B0B3059CC5E0041FBA1 /* GitTrackerWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				28F67B163059CC600041FBA1 /* Exceptions for "GitTrackerWidget" folder in "GitTrackerWidgetExtension" target */,
+			);
+			path = GitTrackerWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -24,6 +73,13 @@
 			files = (
 			);
 		};
+		28F67B023059CC5E0041FBA1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			files = (
+				28F67B0A3059CC5E0041FBA1 /* SwiftUI.framework in Frameworks */,
+				28F67B083059CC5E0041FBA1 /* WidgetKit.framework in Frameworks */,
+			);
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -31,6 +87,8 @@
 			isa = PBXGroup;
 			children = (
 				28F67AF53059C48D0041FBA1 /* GitTracker */,
+				28F67B0B3059CC5E0041FBA1 /* GitTrackerWidget */,
+				28F67B063059CC5E0041FBA1 /* Frameworks */,
 				28F67AF43059C48D0041FBA1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -39,8 +97,18 @@
 			isa = PBXGroup;
 			children = (
 				28F67AF33059C48D0041FBA1 /* GitTracker.app */,
+				28F67B053059CC5E0041FBA1 /* GitTrackerWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		28F67B063059CC5E0041FBA1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28F67B073059CC5E0041FBA1 /* WidgetKit.framework */,
+				28F67B093059CC5E0041FBA1 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -53,8 +121,12 @@
 				28F67AEF3059C48D0041FBA1 /* Sources */,
 				28F67AF03059C48D0041FBA1 /* Frameworks */,
 				28F67AF13059C48D0041FBA1 /* Resources */,
+				28F67B1A3059CC600041FBA1 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
+			);
+			dependencies = (
+				28F67B143059CC600041FBA1 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				28F67AF53059C48D0041FBA1 /* GitTracker */,
@@ -63,6 +135,24 @@
 			productName = GitTracker;
 			productReference = 28F67AF33059C48D0041FBA1 /* GitTracker.app */;
 			productType = "com.apple.product-type.application";
+		};
+		28F67B043059CC5E0041FBA1 /* GitTrackerWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28F67B173059CC600041FBA1 /* Build configuration list for PBXNativeTarget "GitTrackerWidgetExtension" */;
+			buildPhases = (
+				28F67B013059CC5E0041FBA1 /* Sources */,
+				28F67B023059CC5E0041FBA1 /* Frameworks */,
+				28F67B033059CC5E0041FBA1 /* Resources */,
+			);
+			buildRules = (
+			);
+			fileSystemSynchronizedGroups = (
+				28F67B0B3059CC5E0041FBA1 /* GitTrackerWidget */,
+			);
+			name = GitTrackerWidgetExtension;
+			productName = GitTrackerWidgetExtension;
+			productReference = 28F67B053059CC5E0041FBA1 /* GitTrackerWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -75,6 +165,9 @@
 				LastUpgradeCheck = 2700;
 				TargetAttributes = {
 					28F67AF23059C48D0041FBA1 = {
+						CreatedOnToolsVersion = 27.0;
+					};
+					28F67B043059CC5E0041FBA1 = {
 						CreatedOnToolsVersion = 27.0;
 					};
 				};
@@ -94,12 +187,18 @@
 			projectRoot = "";
 			targets = (
 				28F67AF23059C48D0041FBA1 /* GitTracker */,
+				28F67B043059CC5E0041FBA1 /* GitTrackerWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		28F67AF13059C48D0041FBA1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			files = (
+			);
+		};
+		28F67B033059CC5E0041FBA1 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
 			);
@@ -112,7 +211,20 @@
 			files = (
 			);
 		};
+		28F67B013059CC5E0041FBA1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			files = (
+			);
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		28F67B143059CC600041FBA1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 28F67B043059CC5E0041FBA1 /* GitTrackerWidgetExtension */;
+			targetProxy = 28F67B133059CC600041FBA1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		28F67AFC3059C48E0041FBA1 /* Debug configuration for PBXProject "GitTracker" */ = {
@@ -313,6 +425,68 @@
 			};
 			name = Release;
 		};
+		28F67B183059CC600041FBA1 /* Debug configuration for PBXNativeTarget "GitTrackerWidgetExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitTrackerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GitTrackerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zachchase.GitTracker.GitTrackerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		28F67B193059CC600041FBA1 /* Release configuration for PBXNativeTarget "GitTrackerWidgetExtension" */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_APP_SANDBOX = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = GitTrackerWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = GitTrackerWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 27.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zachchase.GitTracker.GitTrackerWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -329,6 +503,14 @@
 			buildConfigurations = (
 				28F67AFF3059C48E0041FBA1 /* Debug configuration for PBXNativeTarget "GitTracker" */,
 				28F67B003059C48E0041FBA1 /* Release configuration for PBXNativeTarget "GitTracker" */,
+			);
+			defaultConfigurationName = Release;
+		};
+		28F67B173059CC600041FBA1 /* Build configuration list for PBXNativeTarget "GitTrackerWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28F67B183059CC600041FBA1 /* Debug configuration for PBXNativeTarget "GitTrackerWidgetExtension" */,
+				28F67B193059CC600041FBA1 /* Release configuration for PBXNativeTarget "GitTrackerWidgetExtension" */,
 			);
 			defaultConfigurationName = Release;
 		};
