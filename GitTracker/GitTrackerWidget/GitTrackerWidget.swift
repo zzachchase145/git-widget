@@ -50,15 +50,20 @@ struct GitTrackerWidgetEntryView : View {
         VStack {
             Text("This Year's Contributions: 69")
                 .font(.headline)
-            
-            HStack(spacing: 3) {
-                ForEach(0..<24, id: \.self) { _ in
-                    RoundedRectangle(cornerRadius: 2)
-                        .frame(width: 8, height: 8)
+            VStack(spacing: 3) {
+                ForEach(0..<7, id: \.self) { _ in
+                
+                HStack(spacing: 3) {
+                    ForEach(0..<24, id: \.self) { _ in
+                        RoundedRectangle(cornerRadius: 2)
+                            .frame(width: 10, height: 10)
+                        }
+                    }
                 }
             }
-            Spacer()
         }
+        
+        Spacer()
     }
 }
 
