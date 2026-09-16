@@ -72,7 +72,13 @@ struct GitTrackerWidgetEntryView : View {
                 HStack(spacing: 3) {
                     ForEach(0..<24, id: \.self) { column in
                         RoundedRectangle(cornerRadius: 2)
-                            .fill(Color.gray.opacity(0.20))
+                            .fill(
+                                row == 3 && column == 10 ? Color.green.opacity(0.25) :
+                                row == 3 && column == 11 ? Color.green.opacity(0.50) :
+                                row == 3 && column == 12 ? Color.green.opacity(0.75) :
+                                row == 3 && column == 13 ? Color.green :
+                                Color.gray.opacity(0.20)
+                            )
                             .frame(width: 10, height: 10)
                         }
                     }
