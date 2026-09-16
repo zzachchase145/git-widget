@@ -47,14 +47,30 @@ struct GitTrackerWidgetEntryView : View {
     var entry: Provider.Entry
 
     var body: some View {
-        VStack {
+        VStack (spacing: 4) {
             Text("This Year's Contributions: 69")
                 .font(.headline)
+            HStack {
+                Text("Apr")
+                    .frame(width: 44)
+                Text("May")
+                    .frame(width: 44)
+                Text("Jun")
+                    .frame(width: 44)
+                Text("Jul")
+                    .frame(width: 44)
+                Text("Aug")
+                    .frame(width: 44)
+                Text("Sep")
+                    .frame(width: 44)
+            }
+            .padding(.top, 2)
+            
             VStack(spacing: 3) {
-                ForEach(0..<7, id: \.self) { _ in
+                ForEach(0..<7, id: \.self) { row in
                 
                 HStack(spacing: 3) {
-                    ForEach(0..<24, id: \.self) { _ in
+                    ForEach(0..<24, id: \.self) { column in
                         RoundedRectangle(cornerRadius: 2)
                             .fill(Color.gray.opacity(0.20))
                             .frame(width: 10, height: 10)
@@ -62,6 +78,7 @@ struct GitTrackerWidgetEntryView : View {
                     }
                 }
             }
+            .padding(.top, 5)
         }
         
         Spacer()

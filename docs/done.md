@@ -1,5 +1,10 @@
 # What we have done
 
+# (16/09/2026)
+
+- Made grid and grid color
+
+------------------------------------------
 # (15/09/2026)
 
 - Made first hardcoded yearly contributions tracker and moved it to the top of the widget.
