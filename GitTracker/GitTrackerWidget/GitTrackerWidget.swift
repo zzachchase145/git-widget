@@ -49,10 +49,20 @@ struct GitTrackerWidgetEntryView : View {
     private var currentWeekday: Int {
         Calendar.current.component(.weekday, from: Date())
     }
-
+    
+    // Weekday ordering logic
+    private var currentRow: Int {
+        if currentWeekday == 1 {
+            return 6
+        } else {
+            return currentWeekday - 2
+        }
+    }
+    
+    // Widget labeling logic
     var body: some View {
         VStack (spacing: 4) {
-            Text("This Year's Contributions: 69")
+            Text("This Years Contributions: 69")
                 .font(.headline)
             HStack {
                 Text("Apr")
@@ -70,6 +80,7 @@ struct GitTrackerWidgetEntryView : View {
             }
             .padding(.top, 2)
             
+            // Widget commit grid logic
             VStack(spacing: 3) {
                 ForEach(0..<7, id: \.self) { row in
                 
