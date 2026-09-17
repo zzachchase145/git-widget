@@ -45,6 +45,10 @@ struct SimpleEntry: TimelineEntry {
 
 struct GitTrackerWidgetEntryView : View {
     var entry: Provider.Entry
+    
+    private var currentWeekday: Int {
+        Calendar.current.component(.weekday, from: Date())
+    }
 
     var body: some View {
         VStack (spacing: 4) {

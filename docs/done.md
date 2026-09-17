@@ -1,5 +1,15 @@
 # What we have done
 
+# (17/09/2026)
+
+- Added baseline hardcoded color shades
+
+--------------------------------------------
+# (16/09/2026)
+
+- Added month labels and made spacing better
+
+-----------------------------------------
 # (16/09/2026)
 
 - Made grid and grid color
