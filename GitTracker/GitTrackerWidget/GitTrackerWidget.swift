@@ -62,7 +62,7 @@ struct GitTrackerWidgetEntryView : View {
     // Widget labeling logic
     var body: some View {
         VStack (spacing: 4) {
-            Text("This Years Contributions: 69")
+            Text("Current Years Total Commits: 69")
                 .font(.headline)
             HStack {
                 Text("Apr")
@@ -86,21 +86,23 @@ struct GitTrackerWidgetEntryView : View {
                 
                 HStack(spacing: 3) {
                     ForEach(0..<24, id: \.self) { column in
-                        RoundedRectangle(cornerRadius: 2)
-                            .fill(
-                                row == 3 && column == 10 ? Color.green.opacity(0.30) :
-                                row == 3 && column == 11 ? Color.green.opacity(0.50) :
-                                row == 3 && column == 12 ? Color.green.opacity(0.75) :
-                                row == 3 && column == 13 ? Color.green :
-                                row == 1 && column == 16 ? Color.green.opacity(0.50) :
-                                row == 5 && column == 18 ? Color.green :
-                                row == 2 && column == 20 ? Color.green.opacity(0.75) :
-                                row == 6 && column == 21 ? Color.green.opacity(0.30) :
-                                Color.gray.opacity(0.20)
-                            )
-                            .frame(width: 10, height: 10)
+                        if column != 23 || row <= currentRow {
+                            RoundedRectangle(cornerRadius: 2)
+                                .fill(
+                                    row == 3 && column == 10 ? Color.green.opacity(0.30) :
+                                    row == 3 && column == 11 ? Color.green.opacity(0.50) :
+                                    row == 3 && column == 12 ? Color.green.opacity(0.75) :
+                                    row == 3 && column == 13 ? Color.green :
+                                    row == 1 && column == 16 ? Color.green.opacity(0.50) :
+                                    row == 5 && column == 18 ? Color.green :
+                                    row == 2 && column == 20 ? Color.green.opacity(0.75) :
+                                    row == 6 && column == 21 ? Color.green.opacity(0.30) :
+                                    Color.gray.opacity(0.20)
+                                )
+                                .frame(width: 10, height: 10)
+                            }
                         }
-                    }
+                    } .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
             .padding(.top, 5)
