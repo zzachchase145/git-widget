@@ -59,6 +59,17 @@ struct GitTrackerWidgetEntryView : View {
         }
     }
     
+    // Current week date logic
+    private var startOfCurrentWeek: Date {
+        let calendar = Calendar.current
+        
+        let components = calendar.dateComponents(
+            [.yearForWeekOfYear, .weekOfYear],
+            from: Date()
+        )
+        return calendar.date(from: components)!
+    }
+    
     // Widget labeling logic
     var body: some View {
         VStack (spacing: 4) {
