@@ -71,10 +71,31 @@ struct GitTrackerWidgetEntryView : View {
         return calendar.date(from: components)!
     }
     
+    // Assign square its date logic func
+    private func dateForSquare(row: Int, column: Int) -> Date {
+        let weeksBack = 23 - column
+        let calendar = Calendar.current
+        
+        let weekStart = calendar.date(
+            byAdding: .weekOfYear,
+            value: -weeksBack,
+            to: startOfCurrentWeek
+        )!
+        
+        let squareDate = calendar.date(
+            byAdding: .day,
+            value: row,
+            to: weekStart
+        )!
+        
+        return squareDate
+    }
+    
+    
     // Widget labeling logic
     var body: some View {
         VStack (spacing: 4) {
-            Text(startOfCurrentWeek, style: .date)
+            Text("Current Years Total Commits: 69")
                 .font(.headline)
             HStack {
                 Text("Apr")
