@@ -61,7 +61,8 @@ struct GitTrackerWidgetEntryView : View {
     
     // Current week date logic
     private var startOfCurrentWeek: Date {
-        let calendar = Calendar.current
+        var calendar = Calendar.current
+        calendar.firstWeekday = 2
         
         let components = calendar.dateComponents(
             [.yearForWeekOfYear, .weekOfYear],
@@ -73,7 +74,7 @@ struct GitTrackerWidgetEntryView : View {
     // Widget labeling logic
     var body: some View {
         VStack (spacing: 4) {
-            Text("Current Years Total Commits: 69")
+            Text(startOfCurrentWeek, style: .date)
                 .font(.headline)
             HStack {
                 Text("Apr")
