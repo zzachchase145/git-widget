@@ -124,6 +124,9 @@ struct GitTrackerWidgetEntryView : View {
                 
                 HStack(spacing: 3) {
                     ForEach(0..<24, id: \.self) { column in
+                        
+                        let squareDate = dateForSquare(row: row, column: column)
+                        
                         if column != 23 || row <= currentRow {
                             RoundedRectangle(cornerRadius: 2)
                                 .fill(
@@ -138,6 +141,7 @@ struct GitTrackerWidgetEntryView : View {
                                     Color.gray.opacity(0.20)
                                 )
                                 .frame(width: 10, height: 10)
+                                .help(squareDate.formatted(date: .long, time: .omitted))
                             }
                         }
                     } .frame(maxWidth: .infinity, alignment: .leading)
