@@ -95,8 +95,13 @@ struct GitTrackerWidgetEntryView : View {
     // Widget labeling logic
     var body: some View {
         VStack (spacing: 4) {
+            // TEMP SQUARE DATE DEBUG
+            //Text(
+            //    "\(dateForSquare(row: 0, column: 22).formatted(date: .long, time: .omitted)) -> \(dateForSquare(row: 6, column: 22).formatted(date: .long, time: .omitted))"
+            //)
             Text("Current Years Total Commits: 69")
                 .font(.headline)
+            
             HStack {
                 Text("Apr")
                     .frame(width: 44)
