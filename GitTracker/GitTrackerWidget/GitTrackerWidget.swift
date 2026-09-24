@@ -50,6 +50,7 @@ struct GitTrackerWidgetEntryView : View {
         Calendar.current.component(.weekday, from: Date())
     }
     
+    
     // Weekday ordering logic
     private var currentRow: Int {
         if currentWeekday == 1 {
@@ -58,6 +59,7 @@ struct GitTrackerWidgetEntryView : View {
             return currentWeekday - 2
         }
     }
+    
     
     // Current week date logic
     private var startOfCurrentWeek: Date {
@@ -70,6 +72,7 @@ struct GitTrackerWidgetEntryView : View {
         )
         return calendar.date(from: components)!
     }
+    
     
     // Assign square its date logic func
     private func dateForSquare(row: Int, column: Int) -> Date {
@@ -92,6 +95,20 @@ struct GitTrackerWidgetEntryView : View {
     }
     
     
+    // First full week identifier helper
+    private func monthLabel(for column: Int) -> String? {
+        let calendar = Calendar.current
+        let monday = dateForSquare(row: 0, column: column)
+        
+        let day = calendar.component(.day, from: monday)
+        
+        if day <= 7 {
+            return monday.formatted(.dateTime.month(.abbreviated))
+        }
+        return nil
+    }
+    
+    
     // Widget labeling logic
     var body: some View {
         VStack (spacing: 4) {
@@ -102,19 +119,13 @@ struct GitTrackerWidgetEntryView : View {
             Text("Current Years Total Commits: 69")
                 .font(.headline)
             
-            HStack {
-                Text("Apr")
-                    .frame(width: 44)
-                Text("May")
-                    .frame(width: 44)
-                Text("Jun")
-                    .frame(width: 44)
-                Text("Jul")
-                    .frame(width: 44)
-                Text("Aug")
-                    .frame(width: 44)
-                Text("Sep")
-                    .frame(width: 44)
+            // Month labels
+            HStack(spacing: 3) {
+                ForEach(0..<24, id: \.self) { column in
+                    Text(monthLabel(for: column) ?? "")
+                        .fixedSize()
+                        .frame(width: 10, alignment: .leading)
+                }
             }
             .padding(.top, 2)
             
@@ -141,7 +152,6 @@ struct GitTrackerWidgetEntryView : View {
                                     Color.gray.opacity(0.20)
                                 )
                                 .frame(width: 10, height: 10)
-                                .help(squareDate.formatted(date: .long, time: .omitted))
                             }
                         }
                     } .frame(maxWidth: .infinity, alignment: .leading)

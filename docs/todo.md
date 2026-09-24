@@ -27,3 +27,6 @@
 
 - Find out how to make ios compatible so I can use it on my iphone
 
+----------------------------------------------
+
+Fix date positioning

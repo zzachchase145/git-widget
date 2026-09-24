@@ -1,5 +1,16 @@
 # What we have done
 
+# (24/09/2026)
+
+- Added dynamic month labels attached to the first full week of the month
+
+----------------------------------------
+
+# (22/09/2026)
+
+- Added dates to all squares dynamically
+
+---------------------------------------
 # (17/09/2026)
 
 - Added baseline hardcoded color shades
