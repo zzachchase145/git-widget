@@ -101,8 +101,9 @@ struct GitTrackerWidgetEntryView : View {
         let monday = dateForSquare(row: 0, column: column)
         
         let day = calendar.component(.day, from: monday)
+        let columnsRemaining = 24 - column
         
-        if day <= 7 {
+        if day <= 7 && columnsRemaining >= 2 {
             return monday.formatted(.dateTime.month(.abbreviated))
         }
         return nil
