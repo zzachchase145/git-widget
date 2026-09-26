@@ -66,6 +66,11 @@ struct GitTrackerWidgetEntryView : View {
         var calendar = Calendar.current
         calendar.firstWeekday = 2
         
+        // Temp test date
+        //let testDate = calendar.date(
+        //    from: DateComponents(year: 2026, month: 10, day: 12)
+        //)!
+        
         let components = calendar.dateComponents(
             [.yearForWeekOfYear, .weekOfYear],
             from: Date()
@@ -107,6 +112,13 @@ struct GitTrackerWidgetEntryView : View {
             return monday.formatted(.dateTime.month(.abbreviated))
         }
         return nil
+    }
+    
+    // Left edge month identifier helper
+    private func leftEdgeMonthLabel() -> String {
+        let leftEdgeDate = dateForSquare(row: 0, column: 0)
+        
+        return leftEdgeDate.formatted(.dateTime.month(.abbreviated))
     }
     
     
