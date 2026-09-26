@@ -51,7 +51,7 @@ struct GitTrackerWidgetEntryView : View {
     }
     
     
-    // Weekday ordering logic
+    // WEEKDAY ORDERING LOGIC
     private var currentRow: Int {
         if currentWeekday == 1 {
             return 6
@@ -61,14 +61,14 @@ struct GitTrackerWidgetEntryView : View {
     }
     
     
-    // Current week date logic
+    // CURRENT WEEK DATE LOGIC
     private var startOfCurrentWeek: Date {
         var calendar = Calendar.current
         calendar.firstWeekday = 2
         
-        // Temp test date
+        // TEMP TEST DATE
         //let testDate = calendar.date(
-        //    from: DateComponents(year: 2026, month: 10, day: 12)
+        //    from: DateComponents(year: 2026, month: 10, day: 17)
         //)!
         
         let components = calendar.dateComponents(
@@ -79,7 +79,7 @@ struct GitTrackerWidgetEntryView : View {
     }
     
     
-    // Assign square its date logic func
+    // ASSIGN SQUARE IT'S DATE LOGIC FUNC
     private func dateForSquare(row: Int, column: Int) -> Date {
         let weeksBack = 23 - column
         let calendar = Calendar.current
@@ -100,7 +100,7 @@ struct GitTrackerWidgetEntryView : View {
     }
     
     
-    // First full week identifier helper
+    // FIRST FULL WEEK IDENTIFIER HELPER
     private func monthLabel(for column: Int) -> String? {
         let calendar = Calendar.current
         let monday = dateForSquare(row: 0, column: column)
@@ -114,7 +114,8 @@ struct GitTrackerWidgetEntryView : View {
         return nil
     }
     
-    // Left edge month identifier helper
+    
+    // LEFT EDGE MONTH INDENTIFIER HELPER
     private func leftEdgeMonthLabel() -> String {
         let leftEdgeDate = dateForSquare(row: 0, column: 0)
         
@@ -122,7 +123,19 @@ struct GitTrackerWidgetEntryView : View {
     }
     
     
-    // Widget labeling logic
+    // NEXT MONTH COLUMN IDENTIFIER HELPER
+    private func nextMonthLabelColumn() -> Int? {
+        for column in 1..<24 {
+            if monthLabel(for: column) != nil {
+                return column
+            }
+        }
+        
+        return nil
+    }
+    
+    
+    // WIDGET LABELING LOGIC
     var body: some View {
         VStack (spacing: 4) {
             // TEMP SQUARE DATE DEBUG
@@ -132,17 +145,29 @@ struct GitTrackerWidgetEntryView : View {
             Text("Current Years Total Commits: 69")
                 .font(.headline)
             
-            // Month labels
+            
+            // MONTH LABELS
             HStack(spacing: 3) {
                 ForEach(0..<24, id: \.self) { column in
-                    Text(monthLabel(for: column) ?? "")
+                    let normalLabel = monthLabel(for: column)
+                    
+                    let label = if column == 0,
+                                   let nextColumn = nextMonthLabelColumn(),
+                                   nextColumn >= 2 {
+                        normalLabel ?? leftEdgeMonthLabel()
+                    } else {
+                        normalLabel ?? ""
+                    }
+                                     
+                    Text(label)
                         .fixedSize()
                         .frame(width: 10, alignment: .leading)
                 }
             }
             .padding(.top, 2)
             
-            // Widget commit grid logic
+            
+            // WIDGET COMMIT GRID LOGIC
             VStack(spacing: 3) {
                 ForEach(0..<7, id: \.self) { row in
                 
@@ -176,6 +201,11 @@ struct GitTrackerWidgetEntryView : View {
         Spacer()
     }
 }
+
+
+
+
+
 
 struct GitTrackerWidget: Widget {
     let kind: String = "GitTrackerWidget"

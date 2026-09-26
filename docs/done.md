@@ -1,5 +1,15 @@
 # What we have done
 
+# (26/09/2026)
+
+- Added left edge month identifier helper.
+
+---------------------------------------
+# (25/09/2026)
+
+- Added widget labelling logiic
+
+--------------------------------------
 # (24/09/2026)
 
 - Added dynamic month labels attached to the first full week of the month
