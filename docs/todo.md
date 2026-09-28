@@ -1,12 +1,9 @@
 ## What we have to do
 
 
-- Make calendar logic
+------------------------------
 
------------------------------------------
-
-- connect git hub and set up backend logic
-
+- connect git hub and test permissions
 ------------------------------------------
 
 - Clean up code 
@@ -18,6 +15,10 @@
 ------------------------------------------
 
 - Find out how to deploy
+
+--------------------------------------------
+
+- open github install
 
 --------------------------------------------
 

@@ -1,2 +1,7 @@
 xcuserdata/
 *.xcuserstate
+
+# Local enviroment variables / secrets
+.env
+.env.*
+!.env.example
