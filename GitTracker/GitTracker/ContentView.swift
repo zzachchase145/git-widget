@@ -11,7 +11,7 @@ struct ContentView: View {
     var body: some View {
         Text("GitTracker")
             .onAppear {
-                let auth = GitHubAuth()
+                var auth = GitHubAuth()
                 auth.testCodeVerifier()
             }
         .padding()

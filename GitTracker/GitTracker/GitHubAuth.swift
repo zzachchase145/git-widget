@@ -10,6 +10,8 @@
 import Foundation
 import Security
 import CryptoKit
+import AppKit
+import Network
 
 
 
@@ -19,6 +21,9 @@ struct GitHubAuth {
     
     // CLIENT ID
     private let clientID = "Iv23livSjxm9Zja74pUm"
+    
+    // LISTENER PROPERTY
+    private var callbackListener: NWListener?
     
     
     // SECURE RANDOM STRING GENERATION
@@ -91,8 +96,30 @@ struct GitHubAuth {
     }
     
     
+    // LOCAL CALLBACK LISTENER
+    private mutating func startCallbackListener() {
+        do {
+            let listener = try NWListener(using: .tcp, on: 8080)
+            callbackListener = listener
+            // State handler
+            listener.stateUpdateHandler = { state in
+                print("Listener state:", state)
+            }
+            // Start listener
+            listener.start(queue: .main)
+        // Catch fail
+        } catch {
+            print("Failed to create callback listener:", error)
+        }
+    }
+    
+    
     // TEST FUNCTION FOR CODE GENERATION
-    func testCodeVerifier() {
+    mutating func testCodeVerifier() {
+        //Start callback
+        startCallbackListener()
+        
+        //Add codes to func
         let verifier = generateCodeVerifier()
         let challenge = generateCodeChallenge(from: verifier)
         let state = generateState()
@@ -101,6 +128,12 @@ struct GitHubAuth {
             state: state
         )
         
+        // Directs to url
+        if let url = authorizationURL {
+            NSWorkspace.shared.open(url)
+        }
+        
+        // Prints generated codes to console
         print("Verifier:", verifier)
         print("Length:", verifier.count)
         print("Challenge:", challenge)
