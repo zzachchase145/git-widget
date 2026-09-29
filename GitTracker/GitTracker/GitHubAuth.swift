@@ -86,7 +86,7 @@ struct GitHubAuth {
         components.path = "/login/oauth/authorize"
         components.queryItems = [
             URLQueryItem(name: "client_id", value: clientID),
-            URLQueryItem(name: "redirect_uri", value: "http://127.0.0.1/callback"),
+            URLQueryItem(name: "redirect_uri", value: "http://127.0.0.1:8080/callback"),
             URLQueryItem(name: "code_challenge", value: challenge),
             URLQueryItem(name: "code_challenge_method", value: "S256"),
             URLQueryItem(name: "state", value: state)
@@ -101,10 +101,33 @@ struct GitHubAuth {
         do {
             let listener = try NWListener(using: .tcp, on: 8080)
             callbackListener = listener
+            
             // State handler
             listener.stateUpdateHandler = { state in
                 print("Listener state:", state)
             }
+            
+            // Connection handler
+            listener.newConnectionHandler = { connection in
+                print("Callback connection received")
+                
+                connection.start(queue: .main)
+                
+                // Recieve the data from browser
+                connection.receive(
+                    minimumIncompleteLength: 1,
+                    maximumLength: 65536
+                ) { data, _, _, error in
+                    
+                    // Make raw bytes readable
+                    if let data = data,
+                       let request = String(data: data, encoding: .utf8) {
+                        print("Raw callback request:")
+                        print(request)
+                    }
+                }
+            }
+            
             // Start listener
             listener.start(queue: .main)
         // Catch fail

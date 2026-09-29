@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var auth = GitHubAuth()
+    
     var body: some View {
         Text("GitTracker")
             .onAppear {
-                var auth = GitHubAuth()
                 auth.testCodeVerifier()
             }
         .padding()
