@@ -96,6 +96,7 @@ struct GitHubAuth {
     }
     
     
+    
     // LOCAL CALLBACK LISTENER
     private mutating func startCallbackListener() {
         do {
@@ -124,10 +125,31 @@ struct GitHubAuth {
                        let request = String(data: data, encoding: .utf8) {
                         print("Raw callback request:")
                         print(request)
+                        
+                        // Pull request-target from HTTP
+                        let requestLines = request.components(separatedBy: "\r\n")
+                        
+                        if let firstLine = requestLines.first {
+                            print("First request line:", firstLine)
+                            
+                            let firstLineParts = firstLine.split(separator: " ")
+                            
+                            // Extract URL components
+                            if firstLineParts.count >= 2 {
+                                let requestTarget = String(firstLineParts[1])
+                                print("Request target:", requestTarget)
+                                
+                                if let components = URLComponents(string: requestTarget) {
+                                    print("Path:", components.path)
+                                    print("Query items:", components.queryItems ?? [])
+                                    
+                                    
+                                }
+                            }
+                        }
                     }
                 }
             }
-            
             // Start listener
             listener.start(queue: .main)
         // Catch fail
@@ -135,6 +157,7 @@ struct GitHubAuth {
             print("Failed to create callback listener:", error)
         }
     }
+    
     
     
     // TEST FUNCTION FOR CODE GENERATION
