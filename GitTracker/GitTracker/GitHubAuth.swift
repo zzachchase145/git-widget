@@ -17,13 +17,17 @@ import Network
 
 // AUTH TYPE
 
-struct GitHubAuth {
+class GitHubAuth {
     
     // CLIENT ID
     private let clientID = "Iv23livSjxm9Zja74pUm"
     
     // LISTENER PROPERTY
     private var callbackListener: NWListener?
+    
+    // OAUTH SESSION VALUES
+    private var expectedState: String?
+    private var codeVerifier: String?
     
     
     // SECURE RANDOM STRING GENERATION
@@ -98,7 +102,7 @@ struct GitHubAuth {
     
     
     // LOCAL CALLBACK LISTENER
-    private mutating func startCallbackListener() {
+    private func startCallbackListener() {
         do {
             let listener = try NWListener(using: .tcp, on: 8080)
             callbackListener = listener
@@ -143,7 +147,34 @@ struct GitHubAuth {
                                     print("Path:", components.path)
                                     print("Query items:", components.queryItems ?? [])
                                     
-                                    
+                                    if let queryItems = components.queryItems {
+                                        let code = queryItems.first { $0.name == "code" }?.value
+                                        let returnedState = queryItems.first { $0.name == "state" }?.value
+                                        
+                                        // Both states must exist
+                                        guard let returnedState = returnedState,
+                                              let expectedState = self.expectedState else {
+                                            print("State validation failed: missing state")
+                                            return
+                                        }
+                                        
+                                        // States must match
+                                        guard returnedState == expectedState else {
+                                            print("State validation failed: state mismatch")
+                                            return
+                                        }
+                                        
+                                        // Authorization code must exist
+                                        guard let code = code else {
+                                            print("Authorization failed: missing code")
+                                            return
+                                        }
+                                        
+                                        print("State validation passed")
+                                        
+                                        print("Code received:", code)
+                                        print("State received:", returnedState)
+                                    }
                                 }
                             }
                         }
@@ -159,9 +190,38 @@ struct GitHubAuth {
     }
     
     
+    // TOKEN EXCHANGE
+    private func exchangeCodeForToken(code: String) {
+        guard let codeVerifier = self.codeVerifier else {
+            print("Token exchange failed: missing code verifier")
+            return
+        }
+        // Github token endpoint
+        guard let url = URL(string: "https://github.com/login/oauth/access_token") else {
+            print("Token exchange failed: invalid URL")
+            return
+        }
+        // Turn URL into HTTP request
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        
+        // Request JSON back
+        request.setValue(
+            "application/json",
+            forHTTPHeaderField: "Accept"
+        )
+        // Request body
+        let parameters = [
+            "client_id": clientID,
+            "code": code,
+            "code_verifier": codeVerifier,
+            "redirect_uri": "http://127.0.0.1:8080/callback"
+        ]
+    }
+    
     
     // TEST FUNCTION FOR CODE GENERATION
-    mutating func testCodeVerifier() {
+    func testCodeVerifier() {
         //Start callback
         startCallbackListener()
         
@@ -169,6 +229,9 @@ struct GitHubAuth {
         let verifier = generateCodeVerifier()
         let challenge = generateCodeChallenge(from: verifier)
         let state = generateState()
+        expectedState = state
+        codeVerifier = verifier
+        
         let authorizationURL = generateAuthorizationURL(
             challenge: challenge,
             state: state

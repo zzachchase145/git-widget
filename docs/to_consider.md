@@ -1,0 +1,1 @@
+A more robust native-app flow is to let macOS choose an available local port, discover which port it chose, and build that particular OAuth redirect URL dynamically — e.g. one launch might use 127.0.0.1:51843, another 127.0.0.1:60421.
