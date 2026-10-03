@@ -192,6 +192,11 @@ class GitHubAuth {
     
     // TOKEN EXCHANGE
     private func exchangeCodeForToken(code: String) {
+        // Github client secret
+        guard let clientSecret = ProcessInfo.processInfo.environment["GITHUB_CLIENT_SECRET"] else {
+            print("Token exchange failed: missing client secret")
+            return
+        }
         guard let codeVerifier = self.codeVerifier else {
             print("Token exchange failed: missing code verifier")
             return
@@ -210,13 +215,30 @@ class GitHubAuth {
             "application/json",
             forHTTPHeaderField: "Accept"
         )
+        // Send request bodyy as JSON
+        request.setValue(
+            "application/json",
+            forHTTPHeaderField: "Content-Type"
+        )
         // Request body
         let parameters = [
             "client_id": clientID,
+            "client_secret": clientSecret,
             "code": code,
             "code_verifier": codeVerifier,
             "redirect_uri": "http://127.0.0.1:8080/callback"
         ]
+        // Encoding
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: parameters)
+        } catch {
+            print("Token exchange failed: could not encode the request body")
+            return
+        }
+        // Network task
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            
+        }
     }
     
     

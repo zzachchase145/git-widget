@@ -49,6 +49,13 @@
             ReferencedContainer = "container:GitTracker.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "GITHUB_CLIENT_SECRET"
+            value = "5a1518019ec38be8c4e92fd94d36813942098be5"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
