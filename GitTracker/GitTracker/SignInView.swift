@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct SignInView: View {
     
     // TOKEN INPUT
     @State private var githubToken = ""
@@ -46,5 +46,5 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    SignInView()
 }
