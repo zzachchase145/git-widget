@@ -9,9 +9,21 @@ import SwiftUI
 
 @main
 struct GitTrackerApp: App {
+    
+    // AUTHENTICATION STATE
+    @State private var isAuthenticated = false
+    
     var body: some Scene {
         WindowGroup {
-            SignInView()
+            // AUTHENTICATION SCREEN ROUTING
+            if isAuthenticated {
+                WelcomeView()
+            } else{
+                SignInView()
+            }
         }
     }
+    
+    
+    
 }

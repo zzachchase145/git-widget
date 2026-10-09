@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SignInView: View {
+    // AUTHENTICATION STATE BINDING
+    @Binding var isAuthenticated: Bool
     
     // TOKEN INPUT
     @State private var githubToken = ""
