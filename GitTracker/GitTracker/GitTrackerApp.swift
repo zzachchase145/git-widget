@@ -19,7 +19,7 @@ struct GitTrackerApp: App {
             if isAuthenticated {
                 WelcomeView()
             } else{
-                SignInView()
+                SignInView(isAuthenticated: $isAuthenticated)
             }
         }
     }

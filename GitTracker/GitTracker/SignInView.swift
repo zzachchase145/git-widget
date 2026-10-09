@@ -27,12 +27,28 @@ struct SignInView: View {
                 .textFieldStyle(.roundedBorder)
                 .frame(width: 300)
             
-            // Connect button
+            // CONNECT BUTTON
             Button("Connect") {
                 Task {
                     do {
+                        // VALIDATE GITHUB TOKEN
                         let isValid = try await validateGitHubToken(githubToken)
-                        authMessage = isValid ? "Conneced successfully!" : "Invalid Github token."
+                        
+                        // CHECK TOKEN VALIDITY
+                        if isValid {
+                            // SAVE VALID TOKEN TO KEYCHAIN
+                            let saved = KeychainHelper.saveToken(githubToken)
+                            // CHECK KEYCHAIN SAVE RESULT
+                            if saved {
+                                isAuthenticated = true
+                            } else {
+                                authMessage = "Unable to save GitHub token."
+                            }
+                            
+                        } else {
+                            authMessage = "Invalid GitHub token"
+                        }
+                        
                     } catch {
                         // Error handling
                         authMessage = "Unable to connect to GitHub."
@@ -40,7 +56,7 @@ struct SignInView: View {
                     }
                 }
             }
-            // Authentication feedback
+            // AUTHENTICATION FEEDBACK
             Text(authMessage)
         }
         .padding()
@@ -48,5 +64,5 @@ struct SignInView: View {
 }
 
 #Preview {
-    SignInView()
+    SignInView(isAuthenticated: .constant(false))
 }
