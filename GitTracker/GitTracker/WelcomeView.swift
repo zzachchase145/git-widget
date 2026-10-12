@@ -11,6 +11,11 @@ import SwiftUI
 
 
 struct WelcomeView: View {
+    // AUTHENTICATION STATE BINDING
+    @Binding var isAuthenticated: Bool
+    
+    // DISCONNECT STATUS
+    @State private var disconnectMessage = ""
     
     // WELCOME SCREEN
     var body: some View {
@@ -27,7 +32,21 @@ struct WelcomeView: View {
             // DISCONNECT BUTTON
             Button("Disconnect") {
                 
+                // DELETE TOKEN FROM KEYCHAIN
+                let deleted = KeychainHelper.deleteToken()
+                
+                // CHECK DELETED RESULT
+                if deleted {
+                    isAuthenticated = false
+                } else {
+                    disconnectMessage = "Unable to disconnect from GitHub."
+                }
+                
             }
+            
+            // DISCONNECT FEEDBACK
+            Text(disconnectMessage)
+            
         }
         .padding()
     }
@@ -39,5 +58,5 @@ struct WelcomeView: View {
 
 
 #Preview {
-    WelcomeView()
+    WelcomeView(isAuthenticated: .constant(true))
 }

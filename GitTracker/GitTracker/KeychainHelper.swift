@@ -36,7 +36,27 @@ struct KeychainHelper {
         // SAVE TOKEN TO KEYCHAIN
         let status = SecItemAdd(attributes as CFDictionary, nil)
         
+        // UPDATE EXISTING TOKEN
+        if status == errSecDuplicateItem {
+            
+            // REPLACEMENT TOKEN DATA
+            let updateAttributes: [String: Any] = [
+                kSecValueData as String: tokenData
+            ]
+            // UPDATE KEYCHAIN ENTRY
+            let updateStatus = SecItemUpdate(
+                query as CFDictionary,
+                updateAttributes as CFDictionary
+            )
+            // CHECK UPDATE RESULT
+            return updateStatus == errSecSuccess
+        }
+        
         // CHECK SAVE RESULT
+        if status != errSecSuccess {
+            print("Keychain save failed with status: \(status)")
+        }
+        
         return status == errSecSuccess
     }
     

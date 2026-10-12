@@ -17,7 +17,7 @@ struct GitTrackerApp: App {
         WindowGroup {
             // AUTHENTICATION SCREEN ROUTING
             if isAuthenticated {
-                WelcomeView()
+                WelcomeView(isAuthenticated: $isAuthenticated)
             } else{
                 SignInView(isAuthenticated: $isAuthenticated)
             }
