@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+// NETWORK MONITORING
+import Network
 
 @main
 struct GitTrackerApp: App {
@@ -16,6 +18,15 @@ struct GitTrackerApp: App {
     // STARTUP AUTHENTICATION CHECK
     @State private var isCheckingAuthentication = true
     
+    // CONNECTION ERROR CHECK
+    @State private var hasConnectionError = false
+    
+    // NETWORK CONNECTION MONITOR
+    @State private var networkMonitor = NWPathMonitor()
+    
+    
+    // SCREEN ROUTING
+    // --------------------
     var body: some Scene {
         WindowGroup {
             Group {
@@ -27,6 +38,20 @@ struct GitTrackerApp: App {
                     VStack(spacing: 15) {
                         ProgressView()
                         Text("Checking Github connection...")
+                    }
+                    
+                } else if hasConnectionError {
+                    
+                    // CONNECTION ERROR SCREEN
+                    VStack(spacing: 15) {
+                        Image(systemName: "wifi.slash")
+                            .font(.largeTitle)
+                        
+                        Text("Unable to connect to GitHub")
+                            .font(.title2)
+                            .bold()
+                        
+                        Text("Waiting for connection...")
                     }
                     
                 } else if isAuthenticated {
@@ -47,6 +72,7 @@ struct GitTrackerApp: App {
     }
     
     // STARTUP AUTHENTICATION CHECK
+    // -----------------------------
     @MainActor
     private func checkAuthentication() async {
         
@@ -61,17 +87,42 @@ struct GitTrackerApp: App {
             let isValid = try await validateGitHubToken(token)
             
             if isValid {
+                // VALID TOKEN
                 isAuthenticated = true
+                hasConnectionError = false
             } else {
+                // INVALID TOKEN
                 isAuthenticated = false
+                hasConnectionError = false
             }
             
         } catch {
-            isAuthenticated = false
+            // CONNECTION OR API ERROR
+            hasConnectionError = true
         }
         // FINISH STARTUP AUTHENTICATION CHECK
         isCheckingAuthentication = false
     }
+    
+    
+    // START NETWORK MONITORING
+    // ---------------------------
+    private func startNetworkMonitoring() {
+        
+        // NETWORK STATUS CALLBACK
+        networkMonitor.pathUpdateHandler = { path in
+            
+            // CHECK NETWORK AVAILABILITY
+            if path.status == .satisfied {
+                print("Network connection available")
+            }
+        }
+        
+        // START MONITOR ON BACKGROUND QUEUE
+        networkMonitor.start(queue: DispatchQueue.global(qos: .background))
+        
+    }
+    
     
     
 }

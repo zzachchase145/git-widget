@@ -11,23 +11,39 @@ import Foundation
 
 
 // GITHUB TOKEN VALIDATION
+// ----------------------------
+
 func validateGitHubToken(_ token: String) async throws -> Bool {
-    // Github API endpoint
+    // GITHUB API ENDPOINT
     let url = URL(string: "https://api.github.com/user")!
     
-    // Create HTTP request
+    // CREATE HTTP REQUEST
     var request = URLRequest(url: url)
     
-    // Authorization header
+    // AUTHORIZATION HEADER
     request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
     
-    // Send HTTP request
+    // SEND HTTP REQUEST
     let (_, response) = try await URLSession.shared.data(for: request)
     
-    // Check HTTP response
+    // CHECK HTTP RESPONSE
     guard let httpResponse = response as? HTTPURLResponse else {
         throw URLError(.badServerResponse)
     }
-    // Check status code
-    return httpResponse.statusCode == 200
+    // CHECK GITHUB RESPONSE STATUS
+    switch httpResponse.statusCode {
+        
+    case 200:
+        // VALID TOKEN
+        return true
+        
+    case 401:
+        // INVALID OR REVOKED TOKEN
+        return false
+    
+    default:
+        // TEMPORARY OR UNEXPECTED API ERROR
+        throw URLError(.badServerResponse)
+    }
+    
 }
