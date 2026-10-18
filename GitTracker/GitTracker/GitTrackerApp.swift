@@ -24,6 +24,12 @@ struct GitTrackerApp: App {
     // NETWORK CONNECTION MONITOR
     @State private var networkMonitor = NWPathMonitor()
     
+    // NETWORK MONITOR STARTUP STATE
+    @State private var isNetworkMonitorRunning = false
+    
+    // AUTHENTICATION REQUEST STATE
+    @State private var isAuthenticationRequestRunning = false
+    
     
     // SCREEN ROUTING
     // --------------------
@@ -66,6 +72,7 @@ struct GitTrackerApp: App {
             }
             // STARTUP AUTHENTICATION TASK
             .task {
+                startNetworkMonitoring()
                 await checkAuthentication()
             }
         }
@@ -75,6 +82,17 @@ struct GitTrackerApp: App {
     // -----------------------------
     @MainActor
     private func checkAuthentication() async {
+        
+        // PREVENT DUPLICATE AUTHENTICATION REQUESTS
+        guard !isAuthenticationRequestRunning else {
+            return
+        }
+        isAuthenticationRequestRunning = true
+        
+        // RESET AUTHENTICATION REQUEST STATE ON EXIT
+        defer {
+            isAuthenticationRequestRunning = false
+        }
         
         // LOAD SAVED TOKEN FROM KEYCHAIN
         guard let token = KeychainHelper.loadToken() else {
@@ -109,13 +127,28 @@ struct GitTrackerApp: App {
     // ---------------------------
     private func startNetworkMonitoring() {
         
+        // PREVENT DUPLICATE MONITOR START
+        guard !isNetworkMonitorRunning else {
+            return
+        }
+        isNetworkMonitorRunning = true
+        
         // NETWORK STATUS CALLBACK
         networkMonitor.pathUpdateHandler = { path in
             
             // CHECK NETWORK AVAILABILITY
             if path.status == .satisfied {
-                print("Network connection available")
+                
+                // RETURN TO MAIN ACTOR
+                Task { @MainActor in
+                    
+                    // RETRY AUTHENTICATION IF CONNECTION FAILED
+                    if hasConnectionError {
+                        await checkAuthentication()
+                    }
+                }
             }
+            
         }
         
         // START MONITOR ON BACKGROUND QUEUE
