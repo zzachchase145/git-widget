@@ -5,53 +5,68 @@
 //  Created by Zach Chase on 15/09/2026.
 //
 
+// IMPORTS
+// ---------------
 import WidgetKit
 import SwiftUI
 
-struct Provider: TimelineProvider {
-    func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😀")
-    }
 
+// WIDGET TIMELINE PROVIDER
+// ------------------------------------
+struct Provider: TimelineProvider {
+    
+    // WIDGET PLACEHOLDER
+    // -------------------------
+    func placeholder(in context: Context) -> SimpleEntry {
+        SimpleEntry(date: Date(), emoji: "😺")
+    }
+    
+    // WIDGET SNAPSHOT
+    // --------------------------
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😀")
+        let entry = SimpleEntry(date: Date(), emoji: "😺")
         completion(entry)
     }
-
+    
+    // WIDGET TIMELINE
+    // --------------------------
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
-        var entries: [SimpleEntry] = []
-
-        // Generate a timeline consisting of five entries an hour apart, starting from the current date.
-        let currentDate = Date()
-        for hourOffset in 0 ..< 5 {
-            let entryDate = Calendar.current.date(byAdding: .hour, value: hourOffset, to: currentDate)!
-            let entry = SimpleEntry(date: entryDate, emoji: "🌇")
-            entries.append(entry)
-        }
-
-        let timeline = Timeline(entries: entries, policy: .atEnd)
+        // CREATE CURRENT ENTRY
+        let entry = SimpleEntry(date: Date(), emoji: "😺")
+        
+        // CREATE TIMELINE
+        let timeline = Timeline(
+            entries: [entry],
+            policy: .atEnd
+        )
+        // SEND TIMELINE TO WIDGETKIT
         completion(timeline)
     }
-
-//    func relevances() async -> WidgetRelevances<Void> {
-//        // Generate a list containing the contexts this widget is relevant in.
-//    }
+    
+    
 }
 
+
+// WIDGET TIMELINE ENTRY
+// ---------------------------------
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let emoji: String
 }
 
+// WIDGET ENTRY VIEW
+// --------------------------------------
 struct GitTrackerWidgetEntryView : View {
     var entry: Provider.Entry
     
+    // CURRENT WEEKDAY
     private var currentWeekday: Int {
         Calendar.current.component(.weekday, from: Date())
     }
     
     
     // WEEKDAY ORDERING LOGIC
+    // ----------------------------
     private var currentRow: Int {
         if currentWeekday == 1 {
             return 6
@@ -62,6 +77,7 @@ struct GitTrackerWidgetEntryView : View {
     
     
     // CURRENT WEEK DATE LOGIC
+    // -----------------------------------
     private var startOfCurrentWeek: Date {
         var calendar = Calendar.current
         calendar.firstWeekday = 2
@@ -80,6 +96,7 @@ struct GitTrackerWidgetEntryView : View {
     
     
     // ASSIGN SQUARE IT'S DATE LOGIC FUNC
+    // ------------------------------------
     private func dateForSquare(row: Int, column: Int) -> Date {
         let weeksBack = 23 - column
         let calendar = Calendar.current
@@ -101,6 +118,7 @@ struct GitTrackerWidgetEntryView : View {
     
     
     // FIRST FULL WEEK IDENTIFIER HELPER
+    // -----------------------------------
     private func monthLabel(for column: Int) -> String? {
         let calendar = Calendar.current
         let monday = dateForSquare(row: 0, column: column)
@@ -116,6 +134,7 @@ struct GitTrackerWidgetEntryView : View {
     
     
     // LEFT EDGE MONTH INDENTIFIER HELPER
+    // -------------------------------------
     private func leftEdgeMonthLabel() -> String {
         let leftEdgeDate = dateForSquare(row: 0, column: 0)
         
@@ -124,6 +143,7 @@ struct GitTrackerWidgetEntryView : View {
     
     
     // NEXT MONTH COLUMN IDENTIFIER HELPER
+    // -----------------------------------------
     private func nextMonthLabelColumn() -> Int? {
         for column in 1..<24 {
             if monthLabel(for: column) != nil {
@@ -136,13 +156,14 @@ struct GitTrackerWidgetEntryView : View {
     
     
     // WIDGET LABELING LOGIC
+    // -------------------------------
     var body: some View {
         VStack (spacing: 4) {
             // TEMP SQUARE DATE DEBUG
             //Text(
             //    "\(dateForSquare(row: 0, column: 22).formatted(date: .long, time: .omitted)) -> \(dateForSquare(row: 6, column: 22).formatted(date: .long, time: .omitted))"
             //)
-            Text("Current Years Total Commits: 69")
+            Text("Total Contributions: 69")
                 .font(.headline)
             
             
@@ -204,14 +225,18 @@ struct GitTrackerWidgetEntryView : View {
 
 
 
-
-
-
+// WIDGET CONFIGURATION
+// ----------------------------------
 struct GitTrackerWidget: Widget {
+    
+    // WIDGET IDENTIFIER
     let kind: String = "GitTrackerWidget"
-
+    
+    // WIDGET CONFIGURATION BODY
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: Provider()) { entry in
+            
+            // MACOS VERSION COMPATIBILITY
             if #available(macOS 14.0, *) {
                 GitTrackerWidgetEntryView(entry: entry)
                     .containerBackground(.fill.tertiary, for: .widget)
@@ -221,16 +246,21 @@ struct GitTrackerWidget: Widget {
                     .background()
             }
         }
+        // WIDGET GALLERY INFORMATION
         .configurationDisplayName("My Widget")
         .description("This is an example widget.")
+        
+        // SUPPORTED WIDGET SIZES
         .supportedFamilies([.systemMedium])
     }
 }
 
+// WIDGET PREVIEW
+// --------------------------------
 #Preview(as: .systemMedium) {
     GitTrackerWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "🌇")
+    SimpleEntry(date: .now, emoji: "😺")
 }
 
 

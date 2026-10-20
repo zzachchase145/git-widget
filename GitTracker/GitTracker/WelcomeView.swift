@@ -9,10 +9,15 @@
 import SwiftUI
 
 
-
+// WELCOME
+// -------------------------------------
 struct WelcomeView: View {
+    
     // AUTHENTICATION STATE BINDING
     @Binding var isAuthenticated: Bool
+    
+    // GITHUB CONTRIBUTIONS COUNT__temp
+    let totalContributions: Int
     
     // DISCONNECT STATUS
     @State private var disconnectMessage = ""
@@ -28,6 +33,10 @@ struct WelcomeView: View {
             
             // CONNECTION STATUS
             Text("Connected to GitHub")
+            
+            // GITHUB CONTRIBUTIONS DISPLAY__Temp
+            Text("Total Contributions: \(totalContributions)")
+                .font(.headline)
             
             // DISCONNECT BUTTON
             Button("Disconnect") {
@@ -54,9 +63,10 @@ struct WelcomeView: View {
     
 }
 
-
-
-
 #Preview {
-    WelcomeView(isAuthenticated: .constant(true))
+    WelcomeView(
+        isAuthenticated: .constant(true),
+        // Temp
+        totalContributions: 426
+    )
 }

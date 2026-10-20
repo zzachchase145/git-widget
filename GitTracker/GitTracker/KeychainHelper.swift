@@ -16,6 +16,7 @@ struct KeychainHelper {
     
     
     // SAVE GITHUB TOKEN
+    // ----------------------------------------
     static func saveToken(_ token: String) -> Bool {
         // CONVERT TOKEN TO DATA
         guard let tokenData = token.data(using: .utf8) else {
@@ -63,6 +64,7 @@ struct KeychainHelper {
     
     
     // LOAD GITHUB TOKEN
+    // ---------------------------------
     static func loadToken() -> String? {
         
         // KEYCHAIN LOOKUP QUERY
@@ -91,6 +93,7 @@ struct KeychainHelper {
     
     
     // DELETE GITHUB TOKEN
+    // ----------------------------------
     static func deleteToken() -> Bool {
         
         // KEYCHAIN DELETE QUERY

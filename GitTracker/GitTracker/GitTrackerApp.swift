@@ -15,6 +15,9 @@ struct GitTrackerApp: App {
     // AUTHENTICATION STATE
     @State private var isAuthenticated = false
     
+    // GITHUB CONTRIBUTIONS STATE
+    @State private var totalContributions: Int = 0
+    
     // STARTUP AUTHENTICATION CHECK
     @State private var isCheckingAuthentication = true
     
@@ -62,7 +65,11 @@ struct GitTrackerApp: App {
                     
                 } else if isAuthenticated {
                     // AUTHENTICATED SCREEN
-                    WelcomeView(isAuthenticated: $isAuthenticated)
+                    WelcomeView(
+                        isAuthenticated: $isAuthenticated,
+                        // Temp
+                        totalContributions: totalContributions
+                    )
                     
                 } else {
                     // SIGN IN SCREEN
@@ -108,6 +115,7 @@ struct GitTrackerApp: App {
                 // VALID TOKEN
                 isAuthenticated = true
                 hasConnectionError = false
+                await loadContributions()
             } else {
                 // INVALID TOKEN
                 isAuthenticated = false
@@ -120,6 +128,23 @@ struct GitTrackerApp: App {
         }
         // FINISH STARTUP AUTHENTICATION CHECK
         isCheckingAuthentication = false
+    }
+    
+    
+    // LOAD GITHUB CONTRIBUTIONS
+    // ---------------------------------
+    @MainActor
+    private func loadContributions() async {
+        guard let token = KeychainHelper.loadToken() else {
+            return
+        }
+        do {
+            let total = try await fetchGitHubContributions(token: token)
+            totalContributions = total
+            print("GitHub Total Contributions: \(total)")
+        } catch {
+            print("Failed to fetch contributions: \(error)")
+        }
     }
     
     

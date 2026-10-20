@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// SIGN IN
+// --------------------------------
 struct SignInView: View {
     // AUTHENTICATION STATE BINDING
     @Binding var isAuthenticated: Bool

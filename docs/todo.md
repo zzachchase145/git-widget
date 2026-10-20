@@ -1,5 +1,10 @@
 ## What we have to do
 
+- Make the GraphQL date range dynamic.
+- Store the contribution total in SwiftUI state.
+- Display the real number in GitTracker.
+- Fetch the individual daily contributions for the grid.
+- Implement caching and automatic widget refreshes.
 
 ------------------------------
 
