@@ -82,6 +82,22 @@ struct GitTrackerApp: App {
                 startNetworkMonitoring()
                 await checkAuthentication()
             }
+            // AUTOMATIC CONTRIBUTIONS REFRESH
+            .task {
+                while !Task.isCancelled {
+                    do {
+                        try await Task.sleep(for: .seconds(30))
+                    } catch {
+                        break
+                    }
+                    guard !Task.isCancelled else {
+                        break
+                    }
+                    if isAuthenticated {
+                        await loadContributions()
+                    }
+                }
+            }
         }
     }
     
