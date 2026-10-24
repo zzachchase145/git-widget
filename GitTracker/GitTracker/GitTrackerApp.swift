@@ -86,7 +86,7 @@ struct GitTrackerApp: App {
             .task {
                 while !Task.isCancelled {
                     do {
-                        try await Task.sleep(for: .seconds(3600))
+                        try await Task.sleep(for: .seconds(30))
                     } catch {
                         break
                     }
