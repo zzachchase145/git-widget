@@ -96,6 +96,13 @@ func fetchGitHubContributions(token: String) async throws -> Int {
     let totalContributions = decodedResponse.data.viewer
         .contributionsCollection.contributionCalendar.totalContributions
     
+    // SAVE CONTRIBUTIONS TO SHARED STORAGE
+    if let sharedDefaults = UserDefaults(
+        suiteName: "group.com.zachchase.GitTracker"
+    ) {
+        sharedDefaults.set(totalContributions, forKey: "totalContributions")
+    }
+    
     // RETURN TOTAL CONTRIBUTIONS
     return totalContributions
 }

@@ -18,21 +18,33 @@ struct Provider: TimelineProvider {
     // WIDGET PLACEHOLDER
     // -------------------------
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), emoji: "😺")
+        SimpleEntry(date: Date(), totalContributions: 0)
     }
     
     // WIDGET SNAPSHOT
     // --------------------------
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), emoji: "😺")
+        let entry = SimpleEntry(date: Date(), totalContributions: 0)
         completion(entry)
     }
     
     // WIDGET TIMELINE
     // --------------------------
     func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+        
+        // READ CONTRIBUTIONS FROM SHARED STORAGE
+        let sharedDefaults = UserDefaults(
+            suiteName: "group.com.zachchase.GitTracker"
+        )
+        let totalContributions = sharedDefaults?.integer(
+            forKey: "totalContributions"
+        ) ?? 0
+        
         // CREATE CURRENT ENTRY
-        let entry = SimpleEntry(date: Date(), emoji: "😺")
+        let entry = SimpleEntry(
+            date: Date(),
+            totalContributions: totalContributions
+        )
         
         // CREATE TIMELINE
         let timeline = Timeline(
@@ -51,7 +63,7 @@ struct Provider: TimelineProvider {
 // ---------------------------------
 struct SimpleEntry: TimelineEntry {
     let date: Date
-    let emoji: String
+    let totalContributions: Int
 }
 
 // WIDGET ENTRY VIEW
@@ -163,7 +175,9 @@ struct GitTrackerWidgetEntryView : View {
             //Text(
             //    "\(dateForSquare(row: 0, column: 22).formatted(date: .long, time: .omitted)) -> \(dateForSquare(row: 6, column: 22).formatted(date: .long, time: .omitted))"
             //)
-            Text("Total Contributions: 69")
+            
+            // GITHUB CONTRIBUTIONS DISPLAY
+            Text("Total Contributions: \(entry.totalContributions)")
                 .font(.headline)
             
             
@@ -195,7 +209,7 @@ struct GitTrackerWidgetEntryView : View {
                 HStack(spacing: 3) {
                     ForEach(0..<24, id: \.self) { column in
                         
-                        let squareDate = dateForSquare(row: row, column: column)
+                        //let squareDate = dateForSquare(row: row, column: column)
                         
                         if column != 23 || row <= currentRow {
                             RoundedRectangle(cornerRadius: 2)
@@ -260,7 +274,7 @@ struct GitTrackerWidget: Widget {
 #Preview(as: .systemMedium) {
     GitTrackerWidget()
 } timeline: {
-    SimpleEntry(date: .now, emoji: "😺")
+    SimpleEntry(date: .now, totalContributions: 428)
 }
 
 
