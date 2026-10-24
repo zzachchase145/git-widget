@@ -106,3 +106,5 @@ func fetchGitHubContributions(token: String) async throws -> Int {
     // RETURN TOTAL CONTRIBUTIONS
     return totalContributions
 }
+
+// THIS IS A TEST LINE IGNORE
