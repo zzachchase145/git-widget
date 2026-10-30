@@ -42,6 +42,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		28D1418B308E916B003E4612 /* Exceptions for "GitTracker" folder in "GitTrackerWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				GitHubContributions.swift,
+				KeychainHelper.swift,
+			);
+			target = 28F67B043059CC5E0041FBA1 /* GitTrackerWidgetExtension */;
+		};
+		28D141A530951096003E4612 /* Exceptions for "GitTrackerWidget" folder in "GitTracker" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				GitTrackerWidget.swift,
+			);
+			target = 28F67AF23059C48D0041FBA1 /* GitTracker */;
+		};
 		28F67B163059CC600041FBA1 /* Exceptions for "GitTrackerWidget" folder in "GitTrackerWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -54,12 +69,16 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		28F67AF53059C48D0041FBA1 /* GitTracker */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				28D1418B308E916B003E4612 /* Exceptions for "GitTracker" folder in "GitTrackerWidgetExtension" target */,
+			);
 			path = GitTracker;
 			sourceTree = "<group>";
 		};
 		28F67B0B3059CC5E0041FBA1 /* GitTrackerWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
+				28D141A530951096003E4612 /* Exceptions for "GitTrackerWidget" folder in "GitTracker" target */,
 				28F67B163059CC600041FBA1 /* Exceptions for "GitTrackerWidget" folder in "GitTrackerWidgetExtension" target */,
 			);
 			path = GitTrackerWidget;

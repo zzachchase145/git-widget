@@ -26,7 +26,8 @@ struct KeychainHelper {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: "GitTracker",
-            kSecAttrAccount as String: "GitHubToken"
+            kSecAttrAccount as String: "GitHubToken",
+            kSecAttrAccessGroup as String: "com.zachchase.GitTracker.SharedKeychain"
         ]
         // KEYCHAIN SAVE ATTRIBUTES
         var attributes = query
@@ -73,7 +74,8 @@ struct KeychainHelper {
             kSecAttrService as String: "GitTracker",
             kSecAttrAccount as String: "GitHubToken",
             kSecReturnData as String: true,
-            kSecMatchLimit as String: kSecMatchLimitOne
+            kSecMatchLimit as String: kSecMatchLimitOne,
+            kSecAttrAccessGroup as String: "com.zachchase.GitTracker.SharedKeychain"
         ]
         // RETRIEVE TOKEN FROM KEYCHAIN
         var result: CFTypeRef?
@@ -100,7 +102,8 @@ struct KeychainHelper {
         let query: [String: Any] = [
             kSecClass as String: kSecClassGenericPassword,
             kSecAttrService as String: "GitTracker",
-            kSecAttrAccount as String: "GitHubToken"
+            kSecAttrAccount as String: "GitHubToken",
+            kSecAttrAccessGroup as String: "com.zachchase.GitTracker.SharedKeychain"
         ]
         // DELETE TOKEN FROM KEYCHAIN
         let status = SecItemDelete(query as CFDictionary)

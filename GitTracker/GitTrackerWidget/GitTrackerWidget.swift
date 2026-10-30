@@ -18,43 +18,64 @@ struct Provider: TimelineProvider {
     // WIDGET PLACEHOLDER
     // -------------------------
     func placeholder(in context: Context) -> SimpleEntry {
-        SimpleEntry(date: Date(), totalContributions: 0)
+        SimpleEntry(date: Date(), totalContributions: 0, tokenFound: false)
     }
     
     // WIDGET SNAPSHOT
     // --------------------------
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let entry = SimpleEntry(date: Date(), totalContributions: 0)
+        let entry = SimpleEntry(date: Date(), totalContributions: 0, tokenFound: false)
         completion(entry)
     }
     
     // WIDGET TIMELINE
-    // --------------------------
-    func getTimeline(in context: Context, completion: @escaping (Timeline<Entry>) -> ()) {
+    // -----------------------------------
+    func getTimeline(
+        in context: Context,
+        completion: @escaping @Sendable (Timeline<SimpleEntry>) -> Void
+    ) {
         
-        // READ CONTRIBUTIONS FROM SHARED STORAGE
-        let sharedDefaults = UserDefaults(
-            suiteName: "group.com.zachchase.GitTracker"
-        )
-        let totalContributions = sharedDefaults?.integer(
-            forKey: "totalContributions"
-        ) ?? 0
+        Task {
+            // TEMPORARY KEYCHAIN TEST ___ Temp
+            let tokenFound = KeychainHelper.loadToken() != nil
+            
+            // READ CACHED CONTRIBUTIONS
+            let sharedDefaults = UserDefaults(
+                suiteName: "group.com.zachchase.GitTracker"
+            )
+            var totalContributions = sharedDefaults?.integer(
+                forKey: "totalContributions"
+            ) ?? 0
+            
+            // FETCH LATEST CNTRIBUTIONS FROM GITUB
+            if let token = KeychainHelper.loadToken() {
+                do {
+                    totalContributions = try await fetchGitHubContributions(
+                        token: token
+                    )
+                } catch {
+                    print("Widget contribution fetch failed: \(error)")
+                }
+            }
+            // CREATE CURRENT ENTRY
+            let entry = SimpleEntry(
+                date: Date(),
+                totalContributions: totalContributions,
+                tokenFound: tokenFound
+            )
+            // CREATE TIMELINE
+            let timeline = Timeline(
+                entries: [entry],
+                policy: .atEnd
+            )
+            // SEND TIMELINE TO WIDGETKIT
+            completion(timeline)
+        }
         
-        // CREATE CURRENT ENTRY
-        let entry = SimpleEntry(
-            date: Date(),
-            totalContributions: totalContributions
-        )
         
-        // CREATE TIMELINE
-        let timeline = Timeline(
-            entries: [entry],
-            policy: .atEnd
-        )
-        // SEND TIMELINE TO WIDGETKIT
-        completion(timeline)
     }
     
+  
     
 }
 
@@ -64,6 +85,8 @@ struct Provider: TimelineProvider {
 struct SimpleEntry: TimelineEntry {
     let date: Date
     let totalContributions: Int
+    // Temp keychain test___temp
+    let tokenFound: Bool
 }
 
 // WIDGET ENTRY VIEW
@@ -180,6 +203,10 @@ struct GitTrackerWidgetEntryView : View {
             Text("Total Contributions: \(entry.totalContributions)")
                 .font(.headline)
             
+            // Temp keychain test____temp
+            Text(entry.tokenFound ? "Token Found" : "Token Not Found")
+                .font(.caption)
+            
             
             // MONTH LABELS
             HStack(spacing: 3) {
@@ -274,7 +301,7 @@ struct GitTrackerWidget: Widget {
 #Preview(as: .systemMedium) {
     GitTrackerWidget()
 } timeline: {
-    SimpleEntry(date: .now, totalContributions: 428)
+    SimpleEntry(date: .now, totalContributions: 428, tokenFound: false)
 }
 
 
